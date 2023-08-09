@@ -33,9 +33,12 @@
 		50D713792A702AE1006F7692 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 50D713782A702AE1006F7692 /* GoogleSignInSwift */; };
 		50D7137E2A70307C006F7692 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D7137D2A70307C006F7692 /* Utilities.swift */; };
 		50D713802A7064E8006F7692 /* SignInGoogleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D7137F2A7064E8006F7692 /* SignInGoogleHelper.swift */; };
+		50D713822A741671006F7692 /* 2FA View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D713812A741671006F7692 /* 2FA View.swift */; };
+		50D713842A7418E7006F7692 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 50D713832A7418E7006F7692 /* FirebaseMessaging */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5020E6342A7978FE002F058A /* GPIP Outline.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "GPIP Outline.entitlements"; sourceTree = "<group>"; };
 		5060C59B2A4B5B9C005C988B /* AddBandageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBandageView.swift; sourceTree = "<group>"; };
 		5060C5ED2A55E7CE005C988B /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		5060C5EF2A55EDB5005C988B /* GPIP-Outline-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GPIP-Outline-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -59,6 +62,7 @@
 		50D713732A6DBA3D006F7692 /* LogOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutView.swift; sourceTree = "<group>"; };
 		50D7137D2A70307C006F7692 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		50D7137F2A7064E8006F7692 /* SignInGoogleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInGoogleHelper.swift; sourceTree = "<group>"; };
+		50D713812A741671006F7692 /* 2FA View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "2FA View.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50D713842A7418E7006F7692 /* FirebaseMessaging in Frameworks */,
 				50D713792A702AE1006F7692 /* GoogleSignInSwift in Frameworks */,
 				50C870602A6AEDFB00794A11 /* FirebaseAnalyticsSwift in Frameworks */,
 				50D713772A702AE1006F7692 /* GoogleSignIn in Frameworks */,
@@ -80,6 +85,7 @@
 		5060C5E92A4F6615005C988B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5060C5F02A56051B005C988B /* SumOfHealthView.swift */,
 				5060C5ED2A55E7CE005C988B /* SplashScreenView.swift */,
 				5060C60E2A587539005C988B /* ContentView.swift */,
 				5060C59B2A4B5B9C005C988B /* AddBandageView.swift */,
@@ -91,8 +97,8 @@
 		5060C5FD2A56108A005C988B /* IconViews */ = {
 			isa = PBXGroup;
 			children = (
-				5060C6362A61D7A2005C988B /* BluetoothView.swift */,
-				5060C5F02A56051B005C988B /* SumOfHealthView.swift */,
+				50D713732A6DBA3D006F7692 /* LogOutView.swift */,
+				50DD229D2A7ADDB00068B008 /* Bluetooth */,
 				5060C6352A61D62B005C988B /* AddContact */,
 			);
 			path = IconViews;
@@ -112,7 +118,6 @@
 			children = (
 				509BAF5B2A43A0AE00EE3EBE /* GPIP Outline */,
 				509BAF5A2A43A0AE00EE3EBE /* Products */,
-				50C870632A6AF58D00794A11 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,6 +132,7 @@
 		509BAF5B2A43A0AE00EE3EBE /* GPIP Outline */ = {
 			isa = PBXGroup;
 			children = (
+				5020E6342A7978FE002F058A /* GPIP Outline.entitlements */,
 				50C8705A2A6AECD800794A11 /* GoogleService-Info.plist */,
 				5060C5EF2A55EDB5005C988B /* GPIP-Outline-Info.plist */,
 				509BAF5C2A43A0AE00EE3EBE /* GPIP_OutlineApp.swift */,
@@ -149,23 +155,16 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		50C870632A6AF58D00794A11 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		50C870662A6AF5FC00794A11 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
 				50D713712A6B1EA2006F7692 /* RootViewFake.swift */,
-				50D7136F2A6B11A4006F7692 /* SignUpView.swift */,
 				50C870612A6AEE2A00794A11 /* FireBaseView.swift */,
+				50D7136F2A6B11A4006F7692 /* SignUpView.swift */,
 				50C8703B2A686D4200794A11 /* SignInView.swift */,
 				50C870672A6AF8C400794A11 /* AuthenticationManager.swift */,
-				50D713732A6DBA3D006F7692 /* LogOutView.swift */,
 				50D7137F2A7064E8006F7692 /* SignInGoogleHelper.swift */,
+				50D713812A741671006F7692 /* 2FA View.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -176,6 +175,14 @@
 				50D7137D2A70307C006F7692 /* Utilities.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		50DD229D2A7ADDB00068B008 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				5060C6362A61D7A2005C988B /* BluetoothView.swift */,
+			);
+			path = Bluetooth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +207,7 @@
 				50C870642A6AF58D00794A11 /* FirebaseAuth */,
 				50D713762A702AE1006F7692 /* GoogleSignIn */,
 				50D713782A702AE1006F7692 /* GoogleSignInSwift */,
+				50D713832A7418E7006F7692 /* FirebaseMessaging */,
 			);
 			productName = "GPIP Outline";
 			productReference = 509BAF592A43A0AE00EE3EBE /* GPIP Outline.app */;
@@ -267,6 +275,7 @@
 				50D713802A7064E8006F7692 /* SignInGoogleHelper.swift in Sources */,
 				5060C5F12A56051B005C988B /* SumOfHealthView.swift in Sources */,
 				5060C6372A61D7A2005C988B /* BluetoothView.swift in Sources */,
+				50D713822A741671006F7692 /* 2FA View.swift in Sources */,
 				5060C6342A61C59E005C988B /* DetailView.swift in Sources */,
 				5060C60F2A587539005C988B /* ContentView.swift in Sources */,
 				5060C6082A586DF7005C988B /* AddContactView.swift in Sources */,
@@ -403,6 +412,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "GPIP Outline/GPIP Outline.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GPIP Outline/Preview Content\"";
@@ -410,7 +421,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "GPIP-Outline-Info.plist";
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Please allow bluetooth for us of the peripherals";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Please allow bluetooth for use of the peripherals";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Please allow bluetooth for indentifying the peripherals";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -425,6 +436,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Albert-Huynh.GPIP-Outline";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -436,6 +448,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "GPIP Outline/GPIP Outline.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GPIP Outline/Preview Content\"";
@@ -443,7 +457,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "GPIP-Outline-Info.plist";
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Please allow bluetooth for us of the peripherals";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Please allow bluetooth for use of the peripherals";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Please allow bluetooth for indentifying the peripherals";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -458,6 +472,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Albert-Huynh.GPIP-Outline";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -531,6 +546,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 50D713752A702AE1006F7692 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		50D713832A7418E7006F7692 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50C8705C2A6AEDFB00794A11 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 /* End XCSwiftPackageProductDependency section */
 

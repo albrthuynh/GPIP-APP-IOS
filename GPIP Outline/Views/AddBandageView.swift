@@ -27,30 +27,30 @@ struct HeaderView: View{
     
 struct SavingsPoint: Identifiable {
     let date: String
-    let value: Double
+    let value: String
     var id = UUID()
     
 }
 
 struct AddBandageView: View{
     
-    var chartData = [SavingsPoint(date: "7/09/23", value: 2.3),
-                     SavingsPoint(date: "7/10/23", value: 4),
-                     SavingsPoint(date: "7/11/23", value: 8.6),
-                     SavingsPoint(date: "7/12/23", value: 3.4),
-                     SavingsPoint(date: "7/13/23", value: 10),
-                     SavingsPoint(date: "7/14/23", value: 4.5),
-                     SavingsPoint(date: "7/15/23", value: 2.3)]
+    var chartData: [SavingsPoint]{
+        return generateChartData()
+    }
+    
+    var currentVal: String {
+        return chartData.last?.value ?? "N/A"
+    }
 
     //core data implementation
     var body: some View{
         
         let nameBandage = ["Elbow", "Arm", "Leg", "Knee", "Neck", "Shoulder"]
-        let values = [2.3, 4, 8.6, 9, 10, 7.2, 2.3]
+        let values = [2.3, 4, 8.6, 9, 10, 7.2, 7.7]
         
-        let currentVal = values.randomElement()!
         
-        VStack(alignment: .leading){
+        
+        VStack(alignment: .center){
             HeaderView()
                 .padding(.horizontal)
        
@@ -61,61 +61,98 @@ struct AddBandageView: View{
             
             Text("Current PH Level: \(currentVal)" )
                 .font(.title)
+                .multilineTextAlignment(.center)
                 .padding()
                 .foregroundColor(.blue)
+                
             
                 
             
             ScrollView{
                 Spacer()
-                Group{
-                    Text("Bandage Location: \(nameBandage.randomElement()!)")
-                    Text("History of Wound (Past 7 Days)")
-                }
-                .font(.callout)
-                .fontWeight(.light)
+                Group {
+                           Text("Bandage Location: \(nameBandage.randomElement()!)")
+                           Text("History of Wound (Past 7 Days)")
+                       }
+                       .font(.callout)
+                       .fontWeight(.light)
+                           
                 Chart{
-                    ForEach(chartData){ item in
-                        BarMark(x: .value("date", item.date), y: .value("acid level", item.value))
+                      ForEach(chartData){ item in
+                          BarMark(x: .value("date", item.date), y: .value("acid level", item.value))
+                      }
+                  }
+                  .frame(minHeight: 200)
+                
+                if let currentPH = Double(currentVal){
+                if currentPH > 7.0 && currentPH < 8.0 {
+                    Text("Great Progress! \nYour doctor would like to see you!")
+                        .bold()
+                        .font(.title2)
+                    
+                    Link("Learn More About Your Wound! Link Here", destination: URL(string: "https://ieeexplore.ieee.org/abstract/document/10182338")!)
+                        .padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10.0)
+                                .stroke(lineWidth: 2.0)
+                            )
+                }
+                else if currentPH > 8.0 {
+                    Text("Your doctor would like to see you!")
+                        .bold()
+                        .font(.title2)
+                    
+                    Link("Learn More About Your Wound! Link Here", destination: URL(string: "https://ieeexplore.ieee.org/abstract/document/10182338")!)
+                        .padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10.0)
+                                .stroke(lineWidth: 2.0)
+                            )
+                }
+                    else{
+                        Text("Your Wound is Healing!")
+                            .foregroundColor(.green)
+                            .bold()
+                            .font(.title2)
+                        
+                        Link("Learn More About Your Wound's PH Level! Link Here", destination: URL(string: "https://ieeexplore.ieee.org/abstract/document/10182338")!)
+                            .padding()
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10.0)
+                                    .stroke(lineWidth: 2.0)
+                            )
                     }
-                    
-                }
-                .frame(minHeight: 200)
-                
-                
-                if currentVal > 7.0 {
-                    Text("Your Doctor would like to see you!")
-                        .foregroundColor(.black)
-                        .bold()
-                        .font(.title2)
-                    
-                    Text("high alkaline pH have a lower healing rate in both acute and chronic wounds as compared to wounds with a pH closer to neutral. Wound healing progression decreases when pH is elevated to alkaline condition.")
-                        .foregroundColor(.black)
-                        .padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10.0)
-                                .stroke(lineWidth: 2.0)
-                        )
-                }
-                
-                else{
-                    Text("Your Wound is Healing!")
-                        .foregroundColor(.green)
-                        .bold()
-                        .font(.title2)
-                    Text("A low pH value leads to the Bohr-effect (ie, an increase of the amount of available oxygen of cells). The delivery of oxygen to damaged tissue, especially in chronic wounds, depends on perfusion as well as diffusion.")
-                        .foregroundColor(.cyan)
-                        .padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10.0)
-                                .stroke(lineWidth: 2.0)
-                        )
-                    
                 }
             }
         }
         
     }
+}
+
+private func generateChartData() -> [SavingsPoint] {
+    // Create a date formatter to parse and format dates
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "MM/dd/yy"
+
+    // Get the current date
+    let currentDate = Date()
+
+    // Generate data for the past 7 days
+    var data: [SavingsPoint] = []
+    for day in 0..<7 {
+        let date = Calendar.current.date(byAdding: .day, value: -day, to: currentDate)!
+        let dateString = dateFormatter.string(from: date)
+        // Replace this with your logic to fetch pH values for the specific date
+        
+        let randomValue = String(format: "%.1f", Double.random(in: 1.0...10.0))
+        
+        data.append(SavingsPoint(date: dateString, value: randomValue))
+    }
+
+    // Sort data by date in ascending order
+    data.sort { dateFormatter.date(from: $0.date)! < dateFormatter.date(from: $1.date)! }
+
+    return data
 }
 
 struct AddBandageView_Previews: PreviewProvider{
