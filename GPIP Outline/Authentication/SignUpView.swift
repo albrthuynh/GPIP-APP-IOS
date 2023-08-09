@@ -21,7 +21,7 @@ final class SignUpEmailViewModel: ObservableObject {
             return
         }
          
-         try await AuthenticationManager.shared.createUser(email: email, password: password)
+         try await AuthenticationManager.shared.signUpUser(email: email, password: password)
     }
 
     func signIn() async throws{
@@ -40,6 +40,8 @@ struct SignUpView: View {
     //shows the signUpView
     @Binding var showSignInView: Bool
     
+    @State private var showingAlert = false
+    
     var body: some View {
         VStack{
             
@@ -56,19 +58,20 @@ struct SignUpView: View {
                 Task{
                     do {
                         try await viewModel.signUp()
-                        showSignInView = false
+//                        showSignInView = false
+                        showingAlert = true
                         return
                     } catch {
                         print(error)
                     }
                     
-                    do {
-                        try await viewModel.signIn()
-                        showSignInView = false
-                        return
-                    } catch {
-                        print(error)
-                    }
+//                    do {
+//                        try await viewModel.signIn()
+//                        showSignInView = false
+//                        return
+//                    } catch {
+//                        print(error)
+//                    }
                 }
                 
             } label: {
@@ -79,6 +82,13 @@ struct SignUpView: View {
                 .background(Color.blue)
                 .foregroundColor(.white)
                 .cornerRadius(10)
+            }
+            .alert(isPresented: $showingAlert){
+                Alert(
+                    title: Text("VERIFY EMAIL"),
+                    message: Text("Verification Email Sent! \nPlease verify your email and proceed to the login screen to login with your email!"),
+                    dismissButton: .default(Text("OK"))
+                )
             }
         }
         .navigationTitle("Create Account")

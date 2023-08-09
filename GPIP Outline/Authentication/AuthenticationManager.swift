@@ -38,6 +38,13 @@ final class AuthenticationManager {
     func signOut() throws {
         try Auth.auth().signOut()
     }
+    
+    func delete() async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw URLError(.badURL)
+        }
+        try await user.delete()
+    }
 }
 
 // SIGN IN EMAIL
@@ -50,10 +57,41 @@ extension AuthenticationManager {
     }
     
     @discardableResult
-    func signInUser(email: String, password: String) async throws -> AuthDataResultModel {
-        let authDataResult = try await Auth.auth().signIn(withEmail: email, password: password)
+    func signUpUser(email: String, password: String) async throws -> AuthDataResultModel {
+        let authDataResult = try await Auth.auth().createUser(withEmail: email, password: password)
+        
+        Auth.auth().currentUser?.sendEmailVerification(completion: { (error) in
+            if let error = error {
+                // Handle the error
+                print("Error sending verification email: \(error.localizedDescription)")
+            } else {
+                // Verification email sent successfully
+                print("Verification email sent successfully")
+            }
+        })
+        
         return AuthDataResultModel(user: authDataResult.user)
     }
+    
+//    @discardableResult
+//    func signInUser(email: String, password: String) async throws -> AuthDataResultModel {
+//        let authDataResult = try await Auth.auth().signIn(withEmail: email, password: password)
+//
+//        // Check if the email is verified
+//        if let currentUser = Auth.auth().currentUser, !currentUser.isEmailVerified {
+//            print("Email not verified!")
+//        }
+//
+//        return AuthDataResultModel(user: authDataResult.user)
+//    }
+
+    @discardableResult
+    func signInUser(email: String, password: String) async throws -> AuthDataResultModel {
+        let authDataResult = try await Auth.auth().signIn(withEmail: email, password: password)
+
+        return AuthDataResultModel(user: authDataResult.user)
+    }
+
     
     func resetPassword(email: String) async throws {
         try await Auth.auth().sendPasswordReset(withEmail: email)
@@ -74,6 +112,7 @@ extension AuthenticationManager {
         
         try await user.updateEmail(to: email)
     }
+    
 }
 
 //SIGN IN SSO
@@ -90,3 +129,5 @@ extension AuthenticationManager {
         return  AuthDataResultModel(user: authDataResult.user)
     }
 }
+
+

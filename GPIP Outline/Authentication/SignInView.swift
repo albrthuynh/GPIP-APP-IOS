@@ -49,17 +49,19 @@ struct SignInView: View {
     @State var showPassword: Bool = false
     
     @Binding var showSignInView: Bool
+    
+    @State private var showingAlert = false
         
     var body: some View {
         NavigationStack{
             ZStack{
                 Color("Background")
                 VStack(alignment: .leading, spacing: 20){
-//                    
+//
 //                    Image("first-aid-image")
 //                        .resizable()
 //                        .padding()
-//                    
+//
                     
                     Text("LOGIN")
                         .font(.title2)
@@ -111,13 +113,21 @@ struct SignInView: View {
                     Button {
                         Task {
                             do {
-                                try await viewModel.signIn()
-                                showSignInView = false
-                                print("LOGGED IN")
-                                
+                                // THIS IS THE SIGN IN
+                                let signInResult = try await viewModel.signIn()
+
+                                if let currentUser = Auth.auth().currentUser, !currentUser.isEmailVerified {
+                                    print("Email not verified!")
+                                    showingAlert = true
+                                  
+                                } else {
+                                    showSignInView = false
+                                    print("LOGGED IN")
+                                }
                             } catch {
                                 print(error)
                             }
+                            
                         }
 
                     } label: {
@@ -129,11 +139,19 @@ struct SignInView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                     }
+                    .alert(isPresented: $showingAlert){
+                        Alert(
+                            title: Text("ALERT"),
+                            message: Text("Your email is not verified! Please verify your email to login."),
+                            dismissButton: .default(Text("Got it!"))
+                        )
+                    }
                     
                     Divider()
                         .frame( height: 20.0)
                     
                     VStack{
+                        
                         HStack{
                             Text("Need an account?")
                             
@@ -161,6 +179,7 @@ struct SignInView: View {
                             }
                         }
                         .padding()
+                        
                     }
                     
                 }.padding()
